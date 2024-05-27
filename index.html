@@ -1,5 +1,154 @@
-<html>
-  <body>
-    <h1>placeholder</h1>
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>WebConfigurator</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+	<style>
+
+	</style
+  </head>
+  <body class="dark">
+	
+	<div id="page-container">
+	
+			<div id="unity-container" class="unity-desktop">
+				<canvas id="unity-canvas"></canvas>
+			</div>
+	
+			<div id="button-container">
+	
+				<div class="title" id="colorspan">Select Color</div>
+				<div id="buttons">
+				<div class="button-container">
+					<button type="button" class="color-button black" onclick="ChangeToBlack()"></button>
+					<button type="button" class="color-button gunmetal" onclick="ChangeToGunMetal()"></button>
+					<button type="button" class="color-button purple" onclick="ChangeToPurple()"></button>
+					<button type="button" class="color-button red" onclick="ChangeToRed()"></button>
+					<button type="button" class="color-button white" onclick="ChangeToWhite()"></button>
+					<button type="button" class="color-button yellow" onclick="ChangeToYellow()"></button>
+				</div>
+				</div>
+		
+				<div class="title" id="bonnetspan">Bonnet</div>
+				<div id="buttons">
+					<button type="button" class="button-main" onclick="VentedBonnetOff()">Standard</button>
+					<button type="button" class="button-main" onclick="VentedBonnetOn()">Vented</button>
+				</div>
+		
+				<div class="title" id="bodyspan">Body Kit</div>
+				<div id="buttons">
+					<button type="button" class="button-main" onclick="KitOn()">Standard</button>
+					<button type="button" class="button-main" onclick="KitOff()">Wide</button>
+					<button type="button" class="button-disabled" onclick="">Vented</button>
+					<button type="button" class="button-disabled" onclick="">All Fins</button>
+				</div>
+		
+				<div class="title" id="wingspan">Rear Wing</div>
+				<div id="buttons">
+					<button type="button" class="button-main" onclick="HillClimbWingOff()">Standard</button>
+					<button type="button" class="button-main" onclick="HillClimbWingOn()">Hill Climb</button>
+					<button type="button" class="button-disabled" onclick="">Sport</button>
+				</div>
+		
+				<div class="title" id="splitterspan">Front Splitter</div>
+				<div id="buttons">
+					<button type="button" class="button-main" onclick="SplitterOff()">Short</button>
+					<button type="button" class="button-main" onclick="SplitterOn()">Extended</button>
+				</div>
+			
+			</div>
+	</div>
+		
+		<div id="loading-cover" style="display:none;">
+			<div id="unity-loading-bar">
+				<div id="unity-logo"><img src="logo.png"></div>
+				<div id="unity-progress-bar-empty" style="display: none;">
+				<div id="unity-progress-bar-full"></div>
+			</div>
+			<div class="spinner"></div>
+		</div>
+		
+    </div>
+	
+    <div id="unity-fullscreen-button" style="display: none;"></div>
+		
+	</div>
+	
+    
+    <script>
+      const hideFullScreenButton = "";
+      const buildUrl = "Build";
+      const loaderUrl = buildUrl + "/Builds.loader.js";
+      const config = {
+        dataUrl: buildUrl + "/Builds.data",
+        frameworkUrl: buildUrl + "/Builds.framework.js",
+        codeUrl: buildUrl + "/Builds.wasm",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "DefaultCompany",
+        productName: "WebConfigurator",
+        productVersion: "0.1",
+      };
+
+      const container = document.querySelector("#unity-container");
+      const canvas = document.querySelector("#unity-canvas");
+      const loadingCover = document.querySelector("#loading-cover");
+      const progressBarEmpty = document.querySelector("#unity-progress-bar-empty");
+      const progressBarFull = document.querySelector("#unity-progress-bar-full");
+      const fullscreenButton = document.querySelector("#unity-fullscreen-button");
+      const spinner = document.querySelector('.spinner');
+	  
+	  // Create variable for Unity Game Instance
+	  var GameInstance;
+
+      const canFullscreen = (function() {
+        for (const key of [
+            'exitFullscreen',
+            'webkitExitFullscreen',
+            'webkitCancelFullScreen',
+            'mozCancelFullScreen',
+            'msExitFullscreen',
+          ]) {
+          if (key in document) {
+            return true;
+          }
+        }
+        return false;
+      }());
+
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        container.className = "unity-mobile";
+        config.devicePixelRatio = 1;
+      }
+      loadingCover.style.display = "";
+
+      const script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+          spinner.style.display = "none";
+          progressBarEmpty.style.display = "";
+          progressBarFull.style.width = `${100 * progress}%`;
+        }).then((unityInstance) => {
+          loadingCover.style.display = "none";
+		  GameInstance = unityInstance;
+          if (canFullscreen) {
+            if (!hideFullScreenButton) {
+              fullscreenButton.style.display = "";
+            }
+            fullscreenButton.onclick = () => {
+              unityInstance.SetFullscreen(1);
+            };
+          }
+        }).catch((message) => {
+          alert(message);
+        });
+      };
+      document.body.appendChild(script);
+    </script>
+	<script src="./configuratorfunctions.js"></script>
   </body>
 </html>
