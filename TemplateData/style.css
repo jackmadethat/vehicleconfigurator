@@ -12,6 +12,7 @@ canvas {
 }
 body {
     margin: 0;
+	overflow: hidden;
 }
 
 #loading-cover {
@@ -131,6 +132,17 @@ body {
 	font-size: 24px;
 	font-family: arial;
 }
+
+.vartext {
+	color: #fff;
+	position: absolute;
+	margin-left: -1000px;
+}
+
+
+
+
+
 
 /* BUTTONS */
 
