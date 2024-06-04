@@ -59,6 +59,8 @@
 					<button type="button" class="button-main" onclick="SplitterOff()">Short</button>
 					<button type="button" class="button-main" onclick="SplitterOn()">Extended</button>
 				</div>
+				
+				
 			
 			</div>
 	</div>
@@ -77,7 +79,7 @@
     <div id="unity-fullscreen-button" style="display: none;"></div>
 		
 	</div>
-	
+	<div id="vartext">text</div>
     
     <script>
       const hideFullScreenButton = "";
@@ -148,7 +150,36 @@
         });
       };
       document.body.appendChild(script);
+	/*  
+var data = "Hello from webpage!";
+
+function sendDataToUnity() {
+  GameInstance.SendMessage("CallbackObj", "ReceiveMessageFromWebpage", data);
+  xonsole.log(data);
+};
+
+function receiveDataFromUnity(result) {
+  console.log("Received message from Unity:", result);
+  console.log(data);
+  data = document.getElementById("vartext").textContent;
+  // Use the received data here
+  document.getElementById("bonnetspan").textContent = "this", data;
+}
+
+GameInstance.SendMessage("CallbackObj", "SendMessageToWebpage", "receiveDataFromUnity");
+*/
     </script>
 	<script src="./configuratorfunctions.js"></script>
+	
+	<script>
+	function VarTest() {
+		// Access the variable from Unity
+		var myVariable = GameInstance.Module["ButtonRed_ColorInt"];
+		console.log("Next line should be output");
+		console.log(myVariable);
+		document.getElementById("bonnetspan").textContent = myVariable;
+	};
+	</script>
+	
   </body>
 </html>

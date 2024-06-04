@@ -1,4 +1,4 @@
-	var ToggleBonnet = false;
+	var ToggleBonnet = 0;
 	var ToggleWing = false;
 	var ToggleSplitter = false;
 	var ToggleKit = false;
@@ -31,13 +31,14 @@
 	}
 		
 	function VentedBonnetOn() {
-	ToggleBonnet = true;
-    GameInstance.SendMessage('BonnetToggle', 'BonnetOn', 'toggle');
-	console.log("Toggle is: " + toggle);
+	ToggleBonnet = 1;
+    GameInstance.SendMessage('BonnetToggle', 'BonnetOn', ToggleBonnet);
+	console.log("Toggle is: " + ToggleBonnet);
 	}
 	function VentedBonnetOff() {
-	ToggleBonnet = false;
-    GameInstance.SendMessage('BonnetToggle', 'BonnetOff');
+	ToggleBonnet = 0;
+    GameInstance.SendMessage('BonnetToggle', 'BonnetOff', ToggleBonnet);
+	console.log("Toggle is: " + ToggleBonnet);
 	}
 	function HillClimbWingOn() {
 	ToggleWing = true;
